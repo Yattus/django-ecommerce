@@ -401,7 +401,7 @@ INSTALLED_APPS = [
     # 'paypal',
 
     # aws django-s3-storage
-    'django_s3_storages',
+    'django_s3_storage',
 ]
 
 # Add Oscar's custom auth backend so users can sign in using their email
