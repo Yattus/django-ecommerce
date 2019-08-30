@@ -132,13 +132,13 @@ if os.environ.get('ENV') == 'PRODUCTION':
         # location("media/public"),
     )
 
-    DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
-
     AWS_S3_BUCKET_AUTH = False
 
     AWS_QUERYSTRING_AUTH = False
 
-    AWS_DEFAULT_ACL = None
+    AWS_S3_MAX_AGE_SECONDS = 60 * 60 * 24 * 365
+
+    # AWS_DEFAULT_ACL = None
 
     OSCAR_MISSING_IMAGE_URL = "image_not_found.jpg"
 
@@ -156,15 +156,17 @@ if os.environ.get('ENV') == 'PRODUCTION':
     # AWS_S3_KEY_PREFIX  =  "/"
 
     # Ce code n'a aucun effect sur stockage distant
-    MEDIA_ROOT = 'http://s3-us-west-1.amazonaws.com/%s/media/public/' % AWS_S3_BUCKET_NAME
+    MEDIA_ROOT = 'http://s3.amazonaws.com/%s/media/public/' % AWS_S3_BUCKET_NAME
 
-    MEDIA_URL = 'https://s3-us-west-1.amazonaws.com/%s/media/' % AWS_S3_BUCKET_NAME
+    MEDIA_URL = 'https://s3.amazonaws.com/%s/media/public' % AWS_S3_BUCKET_NAME
 
     #  See:http://stackoverflow.com/questions/10390244/
     # from storages.backends.s3boto3 import S3Boto3Storage
     # StaticRootS3BotoStorage = lambda: S3Boto3Storage(location='static')  # noqa
     # MediaRootS3BotoStorage = lambda: S3Boto3Storage(location='media/public', file_overwrite=False)  # noqa
     # DEFAULT_FILE_STORAGE = 'store.settings.MediaRootS3BotoStorage'
+
+    DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
 
     # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
