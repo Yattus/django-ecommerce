@@ -134,7 +134,9 @@ if os.environ.get('ENV') == 'PRODUCTION':
 
     AWS_S3_BUCKET_AUTH = False
 
-    AWS_QUERYSTRING_AUTH = False
+    # AWS_QUERYSTRING_AUTH = False
+
+    AWS_S3_SECURE_URLS = False
 
     AWS_S3_MAX_AGE_SECONDS = 60 * 60 * 24 * 365
 
@@ -157,11 +159,11 @@ if os.environ.get('ENV') == 'PRODUCTION':
 
     # Ce code n'a aucun effect sur stockage distant
 
-    AWS_MEDIA_URL = 'media/public'
+    AWS_MEDIA_URL = 'media'
 
-    MEDIA_ROOT = 'http://s3.amazonaws.com/%s/%s' % (AWS_S3_BUCKET_NAME, AWS_MEDIA_URL)
+    MEDIA_ROOT = 'https://{0}.s3.amazonaws.com/{1}/public'.format(AWS_S3_BUCKET_NAME, AWS_MEDIA_URL)
 
-    MEDIA_URL = 'https://s3.amazonaws.com/%s/%s' % (AWS_S3_BUCKET_NAME, AWS_MEDIA_URL)
+    MEDIA_URL = 'https://{0}.s3.amazonaws.com/{1}'.format(AWS_S3_BUCKET_NAME, AWS_MEDIA_URL)
 
     #  See:http://stackoverflow.com/questions/10390244/
     # from storages.backends.s3boto3 import S3Boto3Storage
