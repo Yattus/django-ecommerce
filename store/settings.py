@@ -156,9 +156,12 @@ if os.environ.get('ENV') == 'PRODUCTION':
     # AWS_S3_KEY_PREFIX  =  "/"
 
     # Ce code n'a aucun effect sur stockage distant
-    MEDIA_ROOT = 'http://s3.amazonaws.com/%s/media/public/' % AWS_S3_BUCKET_NAME
 
-    MEDIA_URL = 'https://s3.amazonaws.com/%s/media/public' % AWS_S3_BUCKET_NAME
+    AWS_MEDIA_URL = 'media/public'
+
+    MEDIA_ROOT = 'http://s3.amazonaws.com/%s/%s' % (AWS_S3_BUCKET_NAME, AWS_MEDIA_URL)
+
+    MEDIA_URL = 'https://s3.amazonaws.com/%s/%s' % (AWS_S3_BUCKET_NAME, AWS_MEDIA_URL)
 
     #  See:http://stackoverflow.com/questions/10390244/
     # from storages.backends.s3boto3 import S3Boto3Storage
