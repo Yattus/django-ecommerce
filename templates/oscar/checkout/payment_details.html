@@ -1,0 +1,69 @@
+{% extends "oscar/checkout/payment_details.html" %}
+{% load i18n %}
+{% load currency_filters %}
+{% load shipping_tags %}
+
+
+
+{% block payment_details %}
+    {% block payment_details_content %}
+        <div class="form-actions">
+            {% if anon_checkout_allowed or request.user.is_authenticated %}
+            <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_xclick">
+                <input type="hidden" name="business" value="oregonenew-facilitator@gmail.com">
+                <input type="hidden" name="lc" value="FR">
+                <input type="hidden" name="item_name" value="Olivier store">
+                {% comment %} <input type="hidden" name="item_number" value="10"/> {% endcomment %}
+                <input type="hidden" name="button_subtype" value="services">
+                <input type="hidden" name="no_note" value="0">
+                <input type="hidden" name="cn" value="Ceci est une instruction pour le vendeur a priorie">
+                <input type="hidden" name="no_shipping" value="4">
+                <input name="quantity" value="5">
+                <input type="hidden" name="rm" value="1">
+                <input type="hidden" name="return" value="http://localhost:55000/store/home">
+                <input type="hidden" name="cancel_return" value="http://localhost:55000/store/home">
+                <input type="hidden" name="currency_code" value="EUR">
+                <input type="hidden" name="shipping" value="0">
+                <input type="hidden" name="amount" value="{{ produit.prix }}.{{ produit.prix_decimal }}">
+                <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHosted">
+                <input type="submit" class="btn btn-outline-success btn-lg" alt="Acheter" value="ACHETER">
+                {% comment %} <input type="image" src="https://www.sandbox.paypal.com/fr_FR/FR/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne"> {% endcomment %}
+                {% comment %} <img alt="" border="0" src="https://www.sandbox.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1"> {% endcomment %}
+            </form>
+                <tr>
+                    <th>&nbsp;</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class="total"><h3>{% trans "Order total" %}</h3></th>
+                    <td class="total align-right">
+                        <h3 class="price_color">
+                            {% if order_total.is_tax_known %}
+                                {{ order_total.incl_tax|currency:basket.currency }}
+                            {% else %}
+                                {{ order_total.excl_tax|currency:basket.currency }}
+                            {% endif %}
+                        </h3>
+                    </td>
+                </tr>
+                {% if not order_total.is_tax_known %}
+                    <tr>
+                        <td><small>{% trans "Taxes will be added during checkout." %}</small></td>
+                    </tr>
+                {% endif %}
+
+                <!-- <a href="{% url 'paypal-redirect' %}"><img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" align="left" style="margin-right:7px;"></a> -->
+            {% endif %}
+            <!-- <a href="{% url 'checkout:index' %}" class="btn btn-primary btn-lg">Proceed to checkout</a> -->
+            <!-- <a id="view_preview" href="{% url 'checkout:preview' %}" class="btn btn-primary btn-lg">{% trans "Continue" %}</a> -->
+        </div>
+        <!-- <p>{% trans "This page needs implementing within your project.  You may want to use one of Oscar's payment gateway libraries:" %}</p> -->
+        <!-- <ul> -->
+        <!--     <li><a href="https://github.com/django-oscar/django-oscar-paypal">django-oscar-paypal</a></li> -->
+        <!--     <li><a href="https://github.com/django-oscar/django-oscar-adyen">django-oscar-adyen</a></li> -->
+        <!--     <li><a href="https://github.com/django-oscar/django-oscar-docdata">django-oscar-docdata</a></li> -->
+        <!--     <li><a href="https://github.com/django-oscar/django-oscar-accounts">django-oscar-accounts</a></li> -->
+        <!-- </ul> -->
+    {% endblock payment_details_content %}
+{% endblock payment_details %}

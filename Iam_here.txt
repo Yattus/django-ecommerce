@@ -1,0 +1,4 @@
+Supprimer les application inutile de oscar et les fichier du project
+Trouver comment acheter un domaine et l'hebergement sur Heroku
+
+TROUVER image_not_found in env/../oscar and copy it to media then make collectstatic
